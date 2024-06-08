@@ -129,7 +129,7 @@ class Github:
         """
         Returns true if commit is part of an open pull request or the branch is the base for a pull request
         """
-        url = f'{self.base_url}/repos/{self.repo}/commits/{commit_hash}/pulls'
+        url = f'{self.base_url}/repos/{self.repo}/pulls?state=open'
         headers = self.make_headers()
         headers['accept'] = 'application/vnd.github.groot-preview+json'
 
