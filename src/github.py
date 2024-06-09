@@ -74,7 +74,7 @@ class Github:
                         continue
 
                 # Move on if commit is in an open pull request
-                if self.has_open_pulls(commit_hash=commit_hash):
+                if self.has_open_pulls(branch_name=branch_name):
                     print(f'Ignoring `{branch_name}` because it has open pull requests')
                     continue
 
@@ -125,7 +125,7 @@ class Github:
 
         return response.json().get('default_branch')
 
-    def has_open_pulls(self, commit_hash: str) -> bool:
+    def has_open_pulls(self, branch_name: str) -> bool:
         """
         Returns true if commit is part of an open pull request or the branch is the base for a pull request
         """
@@ -139,7 +139,7 @@ class Github:
 
         pull_request: dict
         for pull_request in response.json():
-            if pull_request.get('state') == 'open':
+            if pull_request.get('head', {}).get('ref') == branch_name:
                 return True
 
         return False
